@@ -28,3 +28,9 @@ fun <T: Any> T?.sure(message: String): T {
         throw AssertionError(message)
     return this
 }
+
+fun <T> T.printAndReturn(message: String = ""): T {
+    println("$message:")
+    println(this)
+    return this
+}
