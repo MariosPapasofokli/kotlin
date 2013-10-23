@@ -315,6 +315,19 @@ public class ErrorUtils {
         return candidate instanceof ErrorClassDescriptor;
     }
 
+    @NotNull
+    public static TypeParameterDescriptor createErrorTypeParameter(@NotNull String debugMessage) {
+        return TypeParameterDescriptorImpl.createWithDefaultBound(
+                ERROR_CLASS,
+                Collections.<AnnotationDescriptor>emptyList(),
+                false,
+                Variance.INVARIANT,
+                Name.special("<ERROR: " + debugMessage + ">"),
+                0
+        );
+    }
+
+
     private static class ErrorTypeImpl implements JetType {
         private final TypeConstructor constructor;
         private final JetScope memberScope;
