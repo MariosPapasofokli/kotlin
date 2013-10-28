@@ -93,7 +93,7 @@ public abstract class LazyJavaMemberScope(
         val valueParameters = resolveValueParameters(innerC, functionDescriptorImpl, method.getValueParameters())
 
         val returnTypeAttrs = LazyJavaTypeAttributes(c, method, TypeUsage.MEMBER_SIGNATURE_COVARIANT) {
-            if (method.hasReadOnlyAnnotation() && !method.hasMutableAnnotation())
+            if (c.hasReadOnlyAnnotation(method) && !c.hasMutableAnnotation(method))
                 TypeUsage.MEMBER_SIGNATURE_CONTRAVARIANT
             else
                 TypeUsage.MEMBER_SIGNATURE_COVARIANT
@@ -154,7 +154,7 @@ public abstract class LazyJavaMemberScope(
             val (index, javaParameter) = pair
 
             val typeUsage = LazyJavaTypeAttributes(c, javaParameter, TypeUsage.MEMBER_SIGNATURE_CONTRAVARIANT) {
-                    javaParameter.hasMutableAnnotation().iif(TypeUsage.MEMBER_SIGNATURE_COVARIANT, TypeUsage.MEMBER_SIGNATURE_CONTRAVARIANT)
+                    c.hasMutableAnnotation(javaParameter).iif(TypeUsage.MEMBER_SIGNATURE_COVARIANT, TypeUsage.MEMBER_SIGNATURE_CONTRAVARIANT)
             }
 
             val (outType, varargElementType) =
@@ -167,7 +167,7 @@ public abstract class LazyJavaMemberScope(
                 }
                 else {
                     val jetType = c.typeResolver.transformJavaType(javaParameter.getType(), typeUsage)
-                    if (jetType.isNullable() && javaParameter.hasNotNullAnnotation())
+                    if (jetType.isNullable() && c.hasNotNullAnnotation(javaParameter))
                         Pair(TypeUtils.makeNotNullable(jetType), null)
                     else Pair(jetType, null)
                 }
