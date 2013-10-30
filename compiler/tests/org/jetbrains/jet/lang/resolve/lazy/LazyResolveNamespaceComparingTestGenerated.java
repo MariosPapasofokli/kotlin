@@ -2418,9 +2418,19 @@ public class LazyResolveNamespaceComparingTestGenerated extends AbstractLazyReso
                 doTestNotCheckingPrimaryConstructors("compiler/testData/loadJava/compiledJavaCompareWithKotlin/notNull/NotNullField.kt");
             }
             
+            @TestMetadata("NotNullIntArray.kt")
+            public void testNotNullIntArray() throws Exception {
+                doTestNotCheckingPrimaryConstructors("compiler/testData/loadJava/compiledJavaCompareWithKotlin/notNull/NotNullIntArray.kt");
+            }
+            
             @TestMetadata("NotNullMethod.kt")
             public void testNotNullMethod() throws Exception {
                 doTestNotCheckingPrimaryConstructors("compiler/testData/loadJava/compiledJavaCompareWithKotlin/notNull/NotNullMethod.kt");
+            }
+            
+            @TestMetadata("NotNullObjectArray.kt")
+            public void testNotNullObjectArray() throws Exception {
+                doTestNotCheckingPrimaryConstructors("compiler/testData/loadJava/compiledJavaCompareWithKotlin/notNull/NotNullObjectArray.kt");
             }
             
             @TestMetadata("NotNullParameter.kt")
