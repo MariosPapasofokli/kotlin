@@ -33,6 +33,7 @@ import java.util.ArrayList
 import org.jetbrains.jet.lang.resolve.java.lazy.types.toAttributes
 import org.jetbrains.jet.lang.resolve.java.resolver.DescriptorResolverUtils
 import org.jetbrains.jet.lang.resolve.java.structure.JavaMember
+import org.jetbrains.jet.lang.resolve.DescriptorUtils
 
 public class LazyJavaClassMemberScope(
         c: LazyJavaResolverContextWithTypes,
@@ -156,7 +157,10 @@ public class LazyJavaClassMemberScope(
         if (jNestedClass == null)
             null
         else
-            LazyJavaClassDescriptor(c, getContainingDeclaration(), jNestedClass.getFqName()!!, jNestedClass)
+            LazyJavaClassDescriptor(c,
+                                    getContainingDeclaration(),
+                                    DescriptorUtils.getFQName(getContainingDeclaration()).child(name).toSafe(),
+                                    jNestedClass)
     }
 
     override fun getClassifier(name: Name): ClassifierDescriptor? = if (enumClassObject) null else nestedClasses(name)
