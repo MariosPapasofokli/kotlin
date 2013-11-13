@@ -32,6 +32,7 @@ import org.jetbrains.jet.lexer.JetTokens
 import org.jetbrains.jet.plugin.project.AnalyzerFacadeWithCache
 import org.jetbrains.jet.plugin.JetBundle
 import org.jetbrains.jet.lang.resolve.java.descriptor.JavaPackageFragmentDescriptor
+import org.jetbrains.jet.lang.resolve.java.lazy.descriptors.LazyJavaPackageFragment
 import org.jetbrains.jet.lang.resolve.DescriptorUtils
 
 public object JetUsageTypeProvider : UsageTypeProviderEx {
@@ -185,7 +186,8 @@ public object JetUsageTypeProvider : UsageTypeProviderEx {
             } else {
                 getClassUsageType()
             }
-            is PackageViewDescriptor -> getClassUsageType()
+        // TODO Leaving both JavaNamespaceDescriptor and LazyJavaPackageFragment for compatibility, the former should be removed after switching to lazy JDR
+            is PackageViewDescriptor, is LazyJavaPackageFragment -> getClassUsageType()
             is VariableDescriptor -> getVariableUsageType()
             is FunctionDescriptor -> getFunctionUsageType(descriptor)
             else -> null
