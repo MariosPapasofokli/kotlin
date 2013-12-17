@@ -46,7 +46,7 @@ public class LazyJavaClassMemberScope(
         val predicate: (JavaMember) -> Boolean = {
             m ->
             (!enumClassObject && !m.isStatic()) ||
-            (enumClassObject && DescriptorResolverUtils.shouldBeInEnumClassObject(m))
+            (enumClassObject && m is JavaMethod && DescriptorResolverUtils.shouldBeInEnumClassObject(m))
         }
         return object : ClassMemberIndex(jClass, predicate) {
             // For SAM-constructors
