@@ -906,7 +906,6 @@ public class QuickFixTestGenerated extends AbstractQuickFixTest {
         }
         
         @TestMetadata("idea/testData/quickfix/modifiers/addOpenToClassDeclaration")
-        @InnerTestClasses({AddOpenToClassDeclaration.FinalJavaClass.class})
         public static class AddOpenToClassDeclaration extends AbstractQuickFixTest {
             public void testAllFilesPresentInAddOpenToClassDeclaration() throws Exception {
                 JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("idea/testData/quickfix/modifiers/addOpenToClassDeclaration"), Pattern.compile("^before(\\w+)\\.kt$"), true);
@@ -957,47 +956,12 @@ public class QuickFixTestGenerated extends AbstractQuickFixTest {
                 doTest("idea/testData/quickfix/modifiers/addOpenToClassDeclaration/beforeImplementTraitFinalSupertype.kt");
             }
             
-            @TestMetadata("idea/testData/quickfix/modifiers/addOpenToClassDeclaration/finalJavaClass")
-            @InnerTestClasses({FinalJavaClass.JavaCode.class})
-            public static class FinalJavaClass extends AbstractQuickFixTest {
-                public void testAllFilesPresentInFinalJavaClass() throws Exception {
-                    JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("idea/testData/quickfix/modifiers/addOpenToClassDeclaration/finalJavaClass"), Pattern.compile("^before(\\w+)\\.kt$"), true);
-                }
-                
-                @TestMetadata("idea/testData/quickfix/modifiers/addOpenToClassDeclaration/finalJavaClass/javaCode")
-                @InnerTestClasses({})
-                public static class JavaCode extends AbstractQuickFixTest {
-                    public void testAllFilesPresentInJavaCode() throws Exception {
-                        JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("idea/testData/quickfix/modifiers/addOpenToClassDeclaration/finalJavaClass/javaCode"), Pattern.compile("^before(\\w+)\\.kt$"), true);
-                    }
-                    
-                    public static Test innerSuite() {
-                        TestSuite suite = new TestSuite("JavaCode");
-                        suite.addTestSuite(JavaCode.class);
-                        return suite;
-                    }
-                }
-                
-                public static Test innerSuite() {
-                    TestSuite suite = new TestSuite("FinalJavaClass");
-                    suite.addTestSuite(FinalJavaClass.class);
-                    suite.addTest(JavaCode.innerSuite());
-                    return suite;
-                }
-            }
-            
-            public static Test innerSuite() {
-                TestSuite suite = new TestSuite("AddOpenToClassDeclaration");
-                suite.addTestSuite(AddOpenToClassDeclaration.class);
-                suite.addTest(FinalJavaClass.innerSuite());
-                return suite;
-            }
         }
         
         public static Test innerSuite() {
             TestSuite suite = new TestSuite("Modifiers");
             suite.addTestSuite(Modifiers.class);
-            suite.addTest(AddOpenToClassDeclaration.innerSuite());
+            suite.addTestSuite(AddOpenToClassDeclaration.class);
             return suite;
         }
     }

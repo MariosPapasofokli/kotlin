@@ -33,7 +33,7 @@ import org.jetbrains.jet.cli.AbstractKotlincExecutableTest;
 @InnerTestClasses({KotlincExecutableTestGenerated.Jvm.class, KotlincExecutableTestGenerated.Js.class})
 public class KotlincExecutableTestGenerated extends AbstractKotlincExecutableTest {
     @TestMetadata("compiler/testData/cli/jvm")
-    @InnerTestClasses({Jvm.Inline.class, Jvm.WrongAbiVersionLib.class})
+    @InnerTestClasses({Jvm.Inline.class})
     public static class Jvm extends AbstractKotlincExecutableTest {
         public void testAllFilesPresentInJvm() throws Exception {
             JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("compiler/testData/cli/jvm"), Pattern.compile("^(.+)\\.args$"), true);
@@ -132,25 +132,10 @@ public class KotlincExecutableTestGenerated extends AbstractKotlincExecutableTes
             
         }
         
-        @TestMetadata("compiler/testData/cli/jvm/wrongAbiVersionLib")
-        @InnerTestClasses({})
-        public static class WrongAbiVersionLib extends AbstractKotlincExecutableTest {
-            public void testAllFilesPresentInWrongAbiVersionLib() throws Exception {
-                JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("compiler/testData/cli/jvm/wrongAbiVersionLib"), Pattern.compile("^(.+)\\.args$"), true);
-            }
-            
-            public static Test innerSuite() {
-                TestSuite suite = new TestSuite("WrongAbiVersionLib");
-                suite.addTestSuite(WrongAbiVersionLib.class);
-                return suite;
-            }
-        }
-        
         public static Test innerSuite() {
             TestSuite suite = new TestSuite("Jvm");
             suite.addTestSuite(Jvm.class);
             suite.addTestSuite(Inline.class);
-            suite.addTest(WrongAbiVersionLib.innerSuite());
             return suite;
         }
     }
