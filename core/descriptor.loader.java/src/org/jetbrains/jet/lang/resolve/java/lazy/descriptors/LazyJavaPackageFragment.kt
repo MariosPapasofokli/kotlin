@@ -36,12 +36,12 @@ class LazyJavaPackageFragment(
         containingDeclaration: ModuleDescriptor,
         val _kind: JavaPackageFragmentDescriptor.Kind,
         val _fqName: FqName,
-        memberScope: LazyJavaPackageFragment.() -> JetScope
+        memberScope: LazyJavaPackageFragment.() -> LazyJavaPackageFragmentScope
 ) : DeclarationDescriptorNonRootImpl(containingDeclaration, listOf(), _fqName.shortNameOrRoot()),
     JavaPackageFragmentDescriptor, LazyJavaDescriptor
 {
     private val _memberScope = memberScope()
-    override fun getMemberScope() = _memberScope
+    override fun getMemberScope(): LazyJavaPackageFragmentScope = _memberScope
 
     override fun getKind() = _kind
     override fun getFqName() = _fqName
