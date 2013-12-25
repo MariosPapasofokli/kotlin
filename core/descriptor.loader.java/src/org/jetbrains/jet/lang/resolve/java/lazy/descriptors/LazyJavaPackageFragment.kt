@@ -15,6 +15,7 @@ import org.jetbrains.jet.lang.types.TypeSubstitutor
 import org.jetbrains.jet.lang.resolve.java.descriptor.JavaPackageFragmentDescriptor
 import org.jetbrains.jet.lang.resolve.java.JavaDescriptorResolver
 import org.jetbrains.jet.lang.descriptors.PackageFragmentProvider
+import org.jetbrains.jet.lang.resolve.name.shortNameOrRoot
 
 fun LazyPackageFragmentForJavaPackage(
         c: LazyJavaResolverContext,
@@ -53,9 +54,4 @@ class LazyJavaPackageFragment(
     override fun substitute(substitutor: TypeSubstitutor) = this
 
     override fun toString() = "lazy java package fragment: " + getFqName()
-}
-
-private fun FqName.shortNameOrRoot(): Name {
-    if (isRoot()) return FqNameUnsafe.ROOT_NAME
-    return shortName()
 }
