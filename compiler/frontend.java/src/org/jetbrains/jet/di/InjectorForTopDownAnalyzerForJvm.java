@@ -255,13 +255,13 @@ public class InjectorForTopDownAnalyzerForJvm implements InjectorForTopDownAnaly
         namespaceFactory.setPackageFragmentProvider(mutablePackageFragmentProvider);
         namespaceFactory.setTrace(bindingTrace);
 
-        this.javaPackageFragmentProvider.setCache(traceBasedJavaResolverCache);
-        this.javaPackageFragmentProvider.setDeserializedDescriptorResolver(deserializedDescriptorResolver);
-        this.javaPackageFragmentProvider.setJavaClassFinder(javaClassFinder);
-        this.javaPackageFragmentProvider.setJavaDescriptorResolver(javaDescriptorResolver);
-        this.javaPackageFragmentProvider.setKotlinClassFinder(virtualFileFinder);
-        this.javaPackageFragmentProvider.setMemberResolver(javaMemberResolver);
-        this.javaPackageFragmentProvider.setModule(moduleDescriptor);
+        javaPackageFragmentProvider.setCache(traceBasedJavaResolverCache);
+        javaPackageFragmentProvider.setDeserializedDescriptorResolver(deserializedDescriptorResolver);
+        javaPackageFragmentProvider.setJavaClassFinder(javaClassFinder);
+        javaPackageFragmentProvider.setJavaDescriptorResolver(javaDescriptorResolver);
+        javaPackageFragmentProvider.setKotlinClassFinder(virtualFileFinder);
+        javaPackageFragmentProvider.setMemberResolver(javaMemberResolver);
+        javaPackageFragmentProvider.setModule(moduleDescriptor);
 
         declarationResolver.setAnnotationResolver(annotationResolver);
         declarationResolver.setContext(topDownAnalysisContext);
@@ -447,10 +447,6 @@ public class InjectorForTopDownAnalyzerForJvm implements InjectorForTopDownAnaly
     
     public JavaDescriptorResolver getJavaDescriptorResolver() {
         return this.javaDescriptorResolver;
-    }
-    
-    public JavaPackageFragmentProviderImpl getJavaPackageFragmentProvider() {
-        return this.javaPackageFragmentProvider;
     }
     
 }
