@@ -63,3 +63,20 @@ public fun <T, C: Collection<T>> C.ifEmpty(body: () -> C): C = if (isEmpty()) bo
 public fun <T> Iterable<Iterable<T>>.flatten(): List<T> {
     return flatMapTo(ArrayList<T>(), {it})
 }
+
+public fun <T: Any> listOfNonNull(vararg nullableItems: T?): List<T> {
+    val result = arrayListOf<T>()
+    for (item in nullableItems) {
+        if (item != null) {
+            result.add(item)
+        }
+    }
+    return result
+}
+
+public fun <T: Any> listOfNonNull(nullableItem: T?): List<T> {
+    if (nullableItem != null) {
+        return listOf(nullableItem)
+    }
+    return listOf()
+}
