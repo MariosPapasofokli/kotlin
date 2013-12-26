@@ -491,6 +491,7 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
     }
     
     @TestMetadata("compiler/testData/loadJava/compiledJavaAndKotlin")
+    @InnerTestClasses({})
     public static class CompiledJavaAndKotlin extends AbstractLoadJavaTest {
         public void testAllFilesPresentInCompiledJavaAndKotlin() throws Exception {
             JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("compiler/testData/loadJava/compiledJavaAndKotlin"), Pattern.compile("^(.+)\\.txt$"), true);
@@ -501,6 +502,11 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
             doTestCompiledJavaAndKotlin("compiler/testData/loadJava/compiledJavaAndKotlin/MixedPackage.txt");
         }
         
+        public static Test innerSuite() {
+            TestSuite suite = new TestSuite("CompiledJavaAndKotlin");
+            suite.addTestSuite(CompiledJavaAndKotlin.class);
+            return suite;
+        }
     }
     
     @TestMetadata("compiler/testData/loadJava/compiledJavaCompareWithKotlin")
@@ -2971,6 +2977,7 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
         }
         
         @TestMetadata("compiler/testData/loadJava/javaAgainstKotlin/samAdapters")
+        @InnerTestClasses({})
         public static class SamAdapters extends AbstractLoadJavaTest {
             public void testAllFilesPresentInSamAdapters() throws Exception {
                 JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("compiler/testData/loadJava/javaAgainstKotlin/samAdapters"), Pattern.compile("^(.+)\\.txt$"), true);
@@ -3001,9 +3008,15 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
                 doTestJavaAgainstKotlin("compiler/testData/loadJava/javaAgainstKotlin/samAdapters/SamAdapterForOverriddenFromKotlin.txt");
             }
             
+            public static Test innerSuite() {
+                TestSuite suite = new TestSuite("SamAdapters");
+                suite.addTestSuite(SamAdapters.class);
+                return suite;
+            }
         }
         
         @TestMetadata("compiler/testData/loadJava/javaAgainstKotlin/signaturePropagation")
+        @InnerTestClasses({})
         public static class SignaturePropagation extends AbstractLoadJavaTest {
             public void testAllFilesPresentInSignaturePropagation() throws Exception {
                 JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("compiler/testData/loadJava/javaAgainstKotlin/signaturePropagation"), Pattern.compile("^(.+)\\.txt$"), true);
@@ -3034,9 +3047,15 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
                 doTestJavaAgainstKotlin("compiler/testData/loadJava/javaAgainstKotlin/signaturePropagation/SubclassingKotlinInJava.txt");
             }
             
+            public static Test innerSuite() {
+                TestSuite suite = new TestSuite("SignaturePropagation");
+                suite.addTestSuite(SignaturePropagation.class);
+                return suite;
+            }
         }
         
         @TestMetadata("compiler/testData/loadJava/javaAgainstKotlin/visibility")
+        @InnerTestClasses({})
         public static class Visibility extends AbstractLoadJavaTest {
             public void testAllFilesPresentInVisibility() throws Exception {
                 JetTestUtils.assertAllTestsPresentByMetadata(this.getClass(), "org.jetbrains.jet.generators.tests.TestsPackage", new File("compiler/testData/loadJava/javaAgainstKotlin/visibility"), Pattern.compile("^(.+)\\.txt$"), true);
@@ -3052,14 +3071,19 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
                 doTestJavaAgainstKotlin("compiler/testData/loadJava/javaAgainstKotlin/visibility/ProtectedPackage.txt");
             }
             
+            public static Test innerSuite() {
+                TestSuite suite = new TestSuite("Visibility");
+                suite.addTestSuite(Visibility.class);
+                return suite;
+            }
         }
         
         public static Test innerSuite() {
             TestSuite suite = new TestSuite("JavaAgainstKotlin");
             suite.addTestSuite(JavaAgainstKotlin.class);
-            suite.addTestSuite(SamAdapters.class);
-            suite.addTestSuite(SignaturePropagation.class);
-            suite.addTestSuite(Visibility.class);
+            suite.addTest(SamAdapters.innerSuite());
+            suite.addTest(SignaturePropagation.innerSuite());
+            suite.addTest(Visibility.innerSuite());
             return suite;
         }
     }
@@ -3100,7 +3124,7 @@ public class LoadJavaTestGenerated extends AbstractLoadJavaTest {
     public static Test suite() {
         TestSuite suite = new TestSuite("LoadJavaTestGenerated");
         suite.addTest(CompiledJava.innerSuite());
-        suite.addTestSuite(CompiledJavaAndKotlin.class);
+        suite.addTest(CompiledJavaAndKotlin.innerSuite());
         suite.addTest(CompiledJavaCompareWithKotlin.innerSuite());
         suite.addTestSuite(CompiledJavaIncludeObjectMethods.class);
         suite.addTest(CompiledKotlin.innerSuite());
