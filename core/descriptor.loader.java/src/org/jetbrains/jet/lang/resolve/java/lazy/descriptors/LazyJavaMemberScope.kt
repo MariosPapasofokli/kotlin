@@ -202,7 +202,7 @@ public abstract class LazyJavaMemberScope(
     }
 
     override fun getFunctions(name: Name) = _functions(name)
-    protected open fun getAllFunctionNames(): Collection<Name> = memberIndex().getAllMetodNames()
+    protected open fun getAllFunctionNames(): Collection<Name> = memberIndex().getAllMethodNames()
 
     val _properties = c.storageManager.createMemoizedFunction {
         (name: Name) ->
