@@ -68,6 +68,7 @@ fun GlobalJavaResolverContext.findJavaClass(fqName: FqName): JavaClass? = findCl
 data class JavaClassLookupResult(val jClass: JavaClass? = null, val kClass: KotlinJvmBinaryClass? = null)
 
 fun GlobalJavaResolverContext.findClassInJava(fqName: FqName): JavaClassLookupResult {
+    // TODO: this should be governed by module separation logic
     // Do not look for JavaClasses for Kotlin binaries & built-ins
     if (JavaClassResolver.getKotlinBuiltinClassDescriptor(fqName) != null) {
         return JavaClassLookupResult()
