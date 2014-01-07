@@ -31,8 +31,6 @@ import org.jetbrains.jet.lang.descriptors.ClassKind;
 import org.jetbrains.jet.lang.resolve.java.JavaResolverPsiUtils;
 import org.jetbrains.jet.lang.resolve.kotlin.KotlinJvmBinaryClass;
 import org.jetbrains.jet.lang.resolve.kotlin.VirtualFileFinder;
-import org.jetbrains.jet.lang.resolve.kotlin.header.KotlinClassHeader;
-import org.jetbrains.jet.lang.resolve.kotlin.header.SerializedDataHeader;
 import org.jetbrains.jet.lang.resolve.name.FqName;
 import org.jetbrains.jet.lang.resolve.name.Name;
 import org.jetbrains.jet.util.QualifiedNamesUtil;
@@ -119,10 +117,7 @@ public class JetFromJavaDescriptorHelper {
         VirtualFile virtualFile = getVirtualFileForPsiClass(psiClass);
         if (virtualFile != null) {
             KotlinJvmBinaryClass kotlinClass = VirtualFileFinder.SERVICE.getInstance(psiClass.getProject()).createKotlinClass(virtualFile);
-            KotlinClassHeader header = kotlinClass.getClassHeader();
-            if (header instanceof SerializedDataHeader) {
-                return ((SerializedDataHeader) header).getAnnotationData();
-            }
+            return kotlinClass.getClassHeaderData();
         }
         return null;
     }

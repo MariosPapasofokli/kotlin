@@ -92,9 +92,26 @@ public class VirtualFileKotlinClass implements KotlinJvmBinaryClass {
         return className.invoke();
     }
 
+    @Nullable
     @Override
-    public KotlinClassHeader getClassHeader() {
-        return classHeader.invoke();
+    public KotlinClassHeader.Kind getKind() {
+        KotlinClassHeader header = classHeader.invoke();
+        return header == null ? null : header.getKind();
+    }
+
+    @Override
+    public int getAbiVersion() {
+        KotlinClassHeader header = classHeader.invoke();
+        assert header != null : "Illegal request for ABI version: no class header (check getKind() != null first). VirtualFile: " + file;
+        return header.getVersion();
+    }
+
+    @NotNull
+    @Override
+    public String[] getClassHeaderData() {
+        KotlinClassHeader header = classHeader.invoke();
+        assert header != null : "Illegal request for header data: no class header (check getKind() != null first). VirtualFile: " + file;
+        return header.getAnnotationData();
     }
 
     @Override

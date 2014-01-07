@@ -30,7 +30,6 @@ import org.jetbrains.jet.lang.resolve.java.resolver.ErrorReporter;
 import org.jetbrains.jet.lang.resolve.java.resolver.JavaClassResolver;
 import org.jetbrains.jet.lang.resolve.java.resolver.JavaPackageFragmentProvider;
 import org.jetbrains.jet.lang.resolve.kotlin.header.KotlinClassHeader;
-import org.jetbrains.jet.lang.resolve.kotlin.header.SerializedDataHeader;
 import org.jetbrains.jet.lang.resolve.name.FqName;
 import org.jetbrains.jet.lang.resolve.name.Name;
 import org.jetbrains.jet.lang.resolve.scopes.JetScope;
@@ -41,8 +40,8 @@ import java.util.Collection;
 
 import static org.jetbrains.jet.lang.resolve.java.DescriptorSearchRule.INCLUDE_KOTLIN_SOURCES;
 import static org.jetbrains.jet.lang.resolve.kotlin.DeserializedResolverUtils.kotlinFqNameToJavaFqName;
-import static org.jetbrains.jet.lang.resolve.kotlin.header.SerializedDataHeader.Kind.CLASS;
-import static org.jetbrains.jet.lang.resolve.kotlin.header.SerializedDataHeader.Kind.PACKAGE;
+import static org.jetbrains.jet.lang.resolve.kotlin.header.KotlinClassHeader.Kind.CLASS;
+import static org.jetbrains.jet.lang.resolve.kotlin.header.KotlinClassHeader.Kind.PACKAGE_FACADE;
 
 public final class DeserializedDescriptorResolver {
     private AnnotationDescriptorDeserializer annotationDeserializer;
@@ -103,7 +102,7 @@ public final class DeserializedDescriptorResolver {
 
     @Nullable
     public JetScope createKotlinPackageScope(@NotNull PackageFragmentDescriptor descriptor, @NotNull KotlinJvmBinaryClass kotlinClass) {
-        String[] data = readData(kotlinClass, PACKAGE);
+        String[] data = readData(kotlinClass, PACKAGE_FACADE);
         if (data != null) {
             return new DeserializedPackageMemberScope(storageManager, descriptor, annotationDeserializer, javaDescriptorFinder,
                                                       JavaProtoBufUtil.readPackageDataFrom(data));
@@ -112,16 +111,13 @@ public final class DeserializedDescriptorResolver {
     }
 
     @Nullable
-    private String[] readData(@NotNull KotlinJvmBinaryClass kotlinClass, @NotNull SerializedDataHeader.Kind expectedKind) {
-        KotlinClassHeader header = kotlinClass.getClassHeader();
-        if (header instanceof SerializedDataHeader) {
-            SerializedDataHeader serializedDataHeader = (SerializedDataHeader) header;
-            if (serializedDataHeader.getKind() != expectedKind) return null;
-            return serializedDataHeader.getAnnotationData();
+    private String[] readData(@NotNull KotlinJvmBinaryClass kotlinClass, @NotNull KotlinClassHeader.Kind expectedKind) {
+        if (kotlinClass.getKind() == KotlinClassHeader.Kind.INCOMPATIBLE_ABI_VERSION) {
+            errorReporter.reportIncompatibleAbiVersion(kotlinClass, kotlinClass.getAbiVersion());
         }
-
-        if (header != null) {
-            errorReporter.reportIncompatibleAbiVersion(kotlinClass, header.getVersion());
+        else {
+            if (kotlinClass.getKind() != expectedKind) return null;
+            return kotlinClass.getClassHeaderData();
         }
 
         return null;

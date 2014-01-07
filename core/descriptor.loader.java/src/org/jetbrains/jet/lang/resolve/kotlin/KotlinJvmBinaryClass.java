@@ -31,7 +31,12 @@ public interface KotlinJvmBinaryClass {
     void loadMemberAnnotations(@NotNull MemberVisitor visitor);
 
     @Nullable
-    KotlinClassHeader getClassHeader();
+    KotlinClassHeader.Kind getKind();
+
+    int getAbiVersion();
+
+    @Nullable
+    String[] getClassHeaderData();
 
     interface MemberVisitor {
         // TODO: abstract signatures for methods and fields instead of ASM 'desc' strings?
